@@ -6,28 +6,29 @@
 
 ## 주요 기능
 
-- JWT 기반 회원가입·로그인 인증
-- 내 이동평균선 전략 생성·조회·수정·삭제
-- Alpha Vantage API를 통한 실제 미국 주식 일별 종가 조회
-- 단기·장기 이동평균선 교차 기반 매수·매도 시뮬레이션
-- 총수익률, 거래 횟수, 승률, MDD 계산
-- 백테스트 실행 결과와 매수·매도 거래 내역 저장
-- 내 백테스트 실행 이력 및 거래 내역 조회
-- Swagger UI로 API 문서 조회 및 직접 테스트
+* JWT 기반 회원가입·로그인 인증
+* 내 이동평균선 전략 생성·조회·수정·삭제
+* Alpha Vantage API를 통한 실제 미국 주식 일별 종가 조회
+* 단기·장기 이동평균선 교차 기반 매수·매도 시뮬레이션
+* 총수익률, 거래 횟수, 승률, MDD 계산
+* 백테스트 실행 결과와 매수·매도 거래 내역 저장
+* 내 백테스트 실행 이력 및 거래 내역 조회
+* Swagger UI로 API 문서 조회 및 직접 테스트
 
 ## 기술 스택
 
-| 구분 | 기술 |
-| --- | --- |
-| Language | Java 21 |
-| Framework | Spring Boot |
-| Database | MySQL |
-| Persistence | Spring Data JPA |
-| Security | Spring Security, JWT |
+| 구분                | 기술                             |
+| ----------------- | ------------------------------ |
+| Language          | Java 21                        |
+| Framework         | Spring Boot                    |
+| Database          | MySQL                          |
+| Persistence       | Spring Data JPA                |
+| Security          | Spring Security, JWT           |
 | API Documentation | Swagger UI / springdoc-openapi |
-| External API | Alpha Vantage |
-| Test | JUnit 5, Mockito |
-| Build Tool | Gradle |
+| External API      | Alpha Vantage                  |
+| Test              | JUnit 5, Mockito               |
+| Build Tool        | Gradle                         |
+| Container         | Docker, Docker Compose         |
 
 ## 핵심 흐름
 
@@ -39,7 +40,7 @@
 → 이동평균선 백테스트 실행
 → 결과와 매수·매도 기록 저장
 → 실행 이력 및 거래 내역 조회
-````
+```
 
 ## API 예시
 
@@ -72,9 +73,9 @@
 
 ### 1. 사전 준비
 
-- Java 21
-- MySQL
-- Alpha Vantage API Key
+* Java 21
+* MySQL
+* Alpha Vantage API Key
 
 ### 2. 데이터베이스 생성
 
@@ -82,7 +83,7 @@
 CREATE DATABASE trading_backtest
     DEFAULT CHARACTER SET utf8mb4
     COLLATE utf8mb4_unicode_ci;
-````
+```
 
 ### 3. 로컬 설정 파일 생성
 
@@ -110,16 +111,41 @@ alpha-vantage.api-key=YOUR_ALPHA_VANTAGE_API_KEY
 ./gradlew bootRun
 ```
 
-````
+## Docker로 실행
 
-저장 후 터미널에서:
+### 1. 환경변수 파일 생성
+
+프로젝트 최상위에 `.env` 파일을 만들고 실제 값만 입력한다.
+
+```properties
+MYSQL_USER=backtest_user
+MYSQL_PASSWORD=backtest_password
+MYSQL_ROOT_PASSWORD=root_password
+JWT_SECRET=YOUR_LONG_RANDOM_SECRET_KEY
+ALPHA_VANTAGE_API_KEY=YOUR_ALPHA_VANTAGE_API_KEY
+```
+
+`.env`에는 비밀값이 포함되므로 GitHub에 올라가지 않는다.
+
+### 2. 컨테이너 실행
 
 ```bash
-git add README.md src/main/resources/application-example.properties
-git commit -m "docs: add local setup guide"
-git push
-````
+docker compose up --build
+```
 
+실행 후 Swagger UI:
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+
+### 3. 컨테이너 종료
+
+```bash
+docker compose down
+```
+
+MySQL 데이터는 Docker Volume에 저장되므로 컨테이너를 종료해도 유지된다.
 
 ## 테스트 실행
 
@@ -141,8 +167,5 @@ http://localhost:8080/swagger-ui/index.html
 
 * 거래 수수료·슬리피지 반영
 * RSI, 볼린저 밴드 등 전략 확장
-* Docker 기반 실행 환경 구성
 * AWS 배포 및 CI/CD 구축
 * Redis 캐시와 성능 개선
-
-
