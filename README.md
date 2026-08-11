@@ -68,6 +68,59 @@
 `initialCash`는 센트 단위입니다.
 예를 들어 `1000000`은 10,000달러를 의미합니다.
 
+## 로컬 실행 방법
+
+### 1. 사전 준비
+
+- Java 21
+- MySQL
+- Alpha Vantage API Key
+
+### 2. 데이터베이스 생성
+
+```sql
+CREATE DATABASE trading_backtest
+    DEFAULT CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+````
+
+### 3. 로컬 설정 파일 생성
+
+예시 파일을 복사해 실제 설정 파일을 만든다.
+
+```bash
+cp src/main/resources/application-example.properties \
+   src/main/resources/application.properties
+```
+
+그다음 `application.properties`에서 아래 값을 자신의 환경에 맞게 수정한다.
+
+```properties
+spring.datasource.username=YOUR_MYSQL_USERNAME
+spring.datasource.password=YOUR_MYSQL_PASSWORD
+jwt.secret=YOUR_LONG_RANDOM_SECRET_KEY
+alpha-vantage.api-key=YOUR_ALPHA_VANTAGE_API_KEY
+```
+
+`application.properties`는 API 키와 비밀번호를 포함하므로 GitHub에 올라가지 않는다.
+
+### 4. 서버 실행
+
+```bash
+./gradlew bootRun
+```
+
+````
+
+저장 후 터미널에서:
+
+```bash
+git add README.md src/main/resources/application-example.properties
+git commit -m "docs: add local setup guide"
+git push
+````
+
+
 ## 테스트 실행
 
 ```bash
