@@ -92,13 +92,4 @@ http://localhost:8080/swagger-ui/index.html
 * AWS 배포 및 CI/CD 구축
 * Redis 캐시와 성능 개선
 
-````
-
-저장한 뒤 터미널에서 실행해.
-
-```bash
-git add README.md
-git commit -m "docs: add project README"
-git push
-````
 
